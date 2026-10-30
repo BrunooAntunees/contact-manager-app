@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Provider, useSelector } from 'react-redux'
+import { store, RootState } from './store'
+import { GlobalStyle, Container, Title } from './styles'
+import Form from './components/Form'
+import ContactCard from './components/ContactCard'
+
+const ContactList = () => {
+  const { items } = useSelector((state: RootState) => state.contacts)
+
+  return (
+    <div>
+      {items.map((contact) => (
+        <ContactCard key={contact.id} contact={contact} />
+      ))}
+    </div>
+  )
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={store}>
+      <GlobalStyle />
+      <Container>
+        <Title>Lista de Contactos</Title>
+        <Form />
+        <ContactList />
+      </Container>
+    </Provider>
+  )
 }
 
-export default App;
+export default App
